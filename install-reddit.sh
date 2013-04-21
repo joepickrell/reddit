@@ -60,7 +60,7 @@ REDDIT_OWNER=reddit
 # the domain that you will connect to your reddit install with.
 # MUST contain a . in it somewhere as browsers won't do cookies for dotless
 # domains. an IP address will suffice if nothing else is available.
-REDDIT_DOMAIN=${REDDIT_DOMAIN:-reddit.local}
+REDDIT_DOMAIN=marioni.uchicago.edu
 
 ###############################################################################
 # Sanity Checks
@@ -74,11 +74,11 @@ fi
 # reddit ppa aren't built for anything but precise (12.04) right now, so
 # if you try and use this install script on another release you're gonna
 # have a bad time.
-source /etc/lsb-release
-if [ "$DISTRIB_ID" != "Ubuntu" -o "$DISTRIB_RELEASE" != "12.04" ]; then
-    echo "ERROR: Only Ubuntu 12.04 is supported."
-    exit 1
-fi
+#source /etc/lsb-release
+#if [ "$DISTRIB_ID" != "Ubuntu" -o "$DISTRIB_RELEASE" != "12.04" ]; then
+#    echo "ERROR: Only Ubuntu 12.04 is supported."
+#    exit 1
+#fi
 
 ###############################################################################
 # Install prerequisites
@@ -91,69 +91,73 @@ if ! id $REDDIT_USER &> /dev/null; then
 fi
 
 # aptitude configuration
-APTITUDE_OPTIONS="-y" # limit bandwidth: -o Acquire::http::Dl-Limit=100"
-export DEBIAN_FRONTEND=noninteractive
+#APTITUDE_OPTIONS="-y" # limit bandwidth: -o Acquire::http::Dl-Limit=100"
+#export DEBIAN_FRONTEND=noninteractive
 
 # add the reddit ppa for some custom packages
-apt-get install $APTITUDE_OPTIONS python-software-properties
-apt-add-repository -y ppa:reddit/ppa
+#apt-get install $APTITUDE_OPTIONS python-software-properties
+#apt-add-repository -y ppa:reddit/ppa
 
 # pin the ppa -- packages present in the ppa will take precedence over
 # ones in other repositories (unless further pinning is done)
-cat <<HERE > /etc/apt/preferences.d/reddit
-Package: *
-Pin: release o=LP-PPA-reddit
-Pin-Priority: 600
-HERE
+#cat <<HERE > /etc/apt/preferences.d/reddit
+#Package: *
+#Pin: release o=LP-PPA-reddit
+#Pin-Priority: 600
+#HERE
 
 # grab the new ppas' package listings
-apt-get update
+#apt-get update
 
 # install prerequisites
-cat <<PACKAGES | xargs apt-get install $APTITUDE_OPTIONS
-git-core
+#cat <<PACKAGES | xargs apt-get install $APTITUDE_OPTIONS
+#git-core
 
-python-dev
-python-setuptools
-python-routes
-python-pylons
-python-boto
-python-tz
-python-crypto
-python-babel
-cython
-python-sqlalchemy
-python-beautifulsoup
-python-cssutils
-python-chardet
-python-psycopg2
-python-pycountry
-python-pycassa
-python-imaging
-python-pycaptcha
-python-amqplib
-python-pylibmc
-python-bcrypt
-python-snudown
-python-l2cs
-python-lxml
-python-zope.interface
-python-kazoo
-python-stripe
+#python-dev
+#python-setuptools
+#python-routes
+#python-pylons
+#python-boto
+#python-tz
+#python-crypto
+#python-babel
+#cython
+#python-sqlalchemy
+#python-beautifulsoup
+#python-cssutils
+#python-chardet
+#python-psycopg2
+#python-pycountry
+#python-pycassa
+#python-imaging
+#python-pycaptcha
+#python-amqplib
+#python-pylibmc
+#python-bcrypt
+#python-snudown
+#python-l2cs
+#python-lxml
+#python-zope.interface
+#python-kazoo
+#python-stripe
 
-nodejs
-gettext
-make
-optipng
-jpegoptim
+#nodejs
+#gettext
+#make
+#optipng
+#jpegoptim
 
-memcached
-postgresql
-postgresql-client
-rabbitmq-server
-cassandra
-haproxy
-PACKAGES
+#memcached
+#postgresql
+#postgresql-client
+#rabbitmq-server
+#cassandra
+#haproxy
+#PACKAGES
+
+# JOE--postgres bin is /usr/lib/postgresql/9.1/bin/
+
+export PATH=$PATH:/usr/lib/postgresql/9.1/bin
 
 ###############################################################################
 # Wait for all the services to be up
